@@ -10,7 +10,10 @@ app.use(express.json());
 
 const PORT = process.env.PORT;
 
-mongoose.connect(process.env.MONGO_URI).then(() => {
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => {
   console.log('MongoDB connected');
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
@@ -27,10 +30,6 @@ const verifyToken = require('./middleware/auth');
 app.use('/api/auth', authRoute);
 app.use('/api/protected', verifyToken, protectedRoute);
 
-app.get("/health", (req, res)=>{
-  res.send(`<h1>Working Fine, I'm OK!</h1>`)
-})
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.get("/health", (req, res) => {
+  res.send(`<h1>Working Fine, I'm OK!</h1>`);
 });
