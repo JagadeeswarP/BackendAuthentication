@@ -23,6 +23,10 @@ const verifyToken = require('./middleware/auth');
 app.use('/api/auth', authRoute);
 app.use('/api/protected', verifyToken, protectedRoute);
 
+app.get("/health", (req, res)=>{
+  res.send(`<h1>Working Fine, I'm OK!</h1>`)
+})
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
