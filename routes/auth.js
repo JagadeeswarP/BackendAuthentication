@@ -7,6 +7,12 @@ const jwt = require('jsonwebtoken');
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
+  // Validate email format
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Please enter a valid @gmail.com email address.' });
+  }
+
   const user = new User({ username, email, password: bcrypt.hashSync(password, 10) });
   try {
     const savedUser = await user.save();
